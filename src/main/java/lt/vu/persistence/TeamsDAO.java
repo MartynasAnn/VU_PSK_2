@@ -1,0 +1,49 @@
+package lt.vu.persistence;
+
+import lt.vu.entities.Team;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.List;
+
+@ApplicationScoped
+public class TeamsDAO {
+
+    @Inject
+    private EntityManager em;
+
+    public List<Team> loadAll() {
+        return em.createNamedQuery("Team.findAll", Team.class).getResultList();
+    }
+
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
+
+    public void persist(Team team){
+        this.em.persist(team);
+    }
+
+    public Team findOne(Integer id) {
+        return em.find(Team.class, id);
+    }
+
+    public List loadTeam(String s) {
+        s = s.toUpperCase();
+        return em.createQuery(
+                "select t " +
+                        "from Team as t " +
+                        "where upper(t.name) like :teamName")
+                .setParameter("teamName", s == null ? "" : "%" + s + "%").
+                        getResultList();
+    }
+
+    public Team searchForTeam(String name) {
+        Query query = em.createNamedQuery("Team.searchForTeam", Team.class);
+        query.setParameter("name", name);
+        Team result = (Team) query.getSingleResult();
+        return result;
+    }
+}

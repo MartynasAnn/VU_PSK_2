@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:head/>
+<h:body>
+    <nav>
+        <h:link value="Teams" outcome="index"/>
+        <h:link value="Divisions" outcome="division"/>
+        <h:link value="Team member search" outcome="divisionSearch"/>
+    </nav>
+    <h2>Teams:</h2>
+    <ol>
+        <ui:repeat value="#{teams.allTeams}" var="team">
+            <li><h:link value="#{team.name}" outcome="players?teamId=#{team.id}" /></li>
+            <ui:repeat value="#{team.divisions}" var="division">#{division.name}</ui:repeat>
+        </ui:repeat>
+    </ol>
+    <h2>Add a team to the roster:</h2>
+    <h:form>
+        <h:inputText value="#{teams.teamToCreate.name}" required="true" />
+        <h:selectManyCheckbox id="chooseDivisions" value="#{teams.teamToCreate.divisions}">
+            <f:selectItems value="#{divisions.allDivisions}" var="division" itemValue="#{division}" itemLabel="#{division.name}"/>
+        </h:selectManyCheckbox>
+        <h:commandButton value="Add new team" actionListener="#{teams.createTeam}" action="index?faces-redirect=true"/>
+    </h:form>
+</h:body>
+</html>

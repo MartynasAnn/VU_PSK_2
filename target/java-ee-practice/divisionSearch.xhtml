@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:head/>
+<h:body>
+   <nav>
+      <h:link value="Teams" outcome="index"/>
+      <h:link value="Divisions" outcome="division"/>
+      <h:link value="Team member search" outcome="divisionSearch"/>
+   </nav>
+   <h2>Search and check teams:</h2>
+   <h:form>
+      <h:inputText value="#{teams.teamToSearch}" required="true"/>
+      <h:commandButton value="Search" actionListener="#{teams.loadTeamLike}"/>
+   </h:form>
+   <ol>
+      <ui:repeat value="#{teams.loadedTeams}" var="team">
+         <li>
+            <h:link value="#{team.name}" outcome="players?teamId=#{team.id}"></h:link>
+         </li>
+      </ui:repeat>
+   </ol>
+</h:body>
+</html>

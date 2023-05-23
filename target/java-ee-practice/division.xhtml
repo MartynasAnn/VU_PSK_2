@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:head/>
+<h:body>
+   <nav>
+      <h:link value="Teams" outcome="index"/>
+      <h:link value="Divisions" outcome="division"/>
+      <h:link value="Team member search" outcome="divisionSearch"/>
+   </nav>
+   <h2>Currently active divisions:</h2>
+   <ui:repeat value="#{divisions.allDivisions}" var="division">
+      <h1>
+         #{division.name}, division of #{division.game}:
+      </h1>
+      <h2>
+         Currently active teams:
+      </h2>
+      <ol>
+         <ui:repeat value="#{division.teams}" var="team">
+            <li>
+               <h:link value="#{team.name}" outcome="players?teamId=#{team.id}"/>
+            </li>
+         </ui:repeat>
+      </ol>
+   </ui:repeat>
+
+</h:body>
+</html>
